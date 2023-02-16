@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import installElementPlus from './plugins/element'
 import * as icons from '@element-plus/icons'
+import './permission'
 // 导入全局样式
 import './style/index.scss'
 // 导入 svgIcon

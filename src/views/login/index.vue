@@ -5,7 +5,7 @@
       :rules="loginRules"
       :model="loginForm"
       class="login-form"
-      ref="loginFromRef"
+      ref="loginFormRef"
     >
       <div class="title-container">
         <h3 class="title">用户登录</h3>
@@ -51,7 +51,11 @@
         </span>
       </el-form-item>
 
-      <el-button type="primary" style="width: 100%; margin-bottom: 30px"
+      <el-button
+        @click="handleLogin"
+        :loading="loading"
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
         >登录</el-button
       >
     </el-form>
@@ -62,9 +66,11 @@
 // 导入组件之后无需注册可直接使用
 // import { Avatar } from '@element-plus/icons'
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 const loginForm = ref({
-  username: 'super-admin',
+  username: 'admin',
+  // username: 'ngyixuan',
   password: '123456'
 })
 const validatePassword = (rule, value, callback) => {
@@ -95,6 +101,27 @@ const loginRules = ref({
     }
   ]
 })
+
+const loading = ref(false)
+const loginFormRef = ref(null)
+const store = useStore()
+const handleLogin = () => {
+  console.log('loginFormRef value', loginForm.value)
+  loginFormRef.value.validate((valid) => {
+    if (!valid) return
+    loading.value = true
+    store
+      .dispatch('user/login', loginForm.value)
+      .then(() => {
+        loading.value = false
+        // TODO:登陆后操作
+      })
+      .catch((err) => {
+        console.log(err)
+        loading.value = false
+      })
+  })
+}
 </script>
 
 <style lang="scss" scoped>
