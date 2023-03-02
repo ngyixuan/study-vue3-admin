@@ -1,8 +1,9 @@
 // import md5 from 'md5'
-import { setItem, getItem } from '@/utils/storage'
+import { setItem, getItem, removeAllItem } from '@/utils/storage'
 import { TOKEN } from '@/constant'
 import router from '@/router'
 import { userLogin, getUserInfo } from '@/api/sys'
+import { setTimeStamp } from '@/utils/auth'
 export default {
   namespaced: true,
   state: () => ({
@@ -27,13 +28,20 @@ export default {
           .then((data) => {
             console.log(data.token)
             this.commit('user/setToken', data.token)
-            router.push('/')
+            router.push('/') // 保存登录时间
+            setTimeStamp()
             resolve()
           })
           .catch((err) => {
             reject(err)
           })
       })
+    },
+    logout() {
+      this.commit('user/setToken', '')
+      this.commit('user/setUserInfo', {})
+      removeAllItem()
+      router.push('/login')
     },
     async getUserInfo(context) {
       const res = await getUserInfo()
