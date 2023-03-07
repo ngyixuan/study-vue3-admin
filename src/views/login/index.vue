@@ -8,7 +8,8 @@
       ref="loginFormRef"
     >
       <div class="title-container">
-        <h3 class="title">用户登录</h3>
+        <h3 class="title">{{ $t('msg.login.title') }}</h3>
+        <lang-select class="lang-select" effect="light"></lang-select>
       </div>
 
       <el-form-item prop="username">
@@ -56,8 +57,9 @@
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
-        >登录</el-button
+        >{{ $t('msg.login.loginBtn') }}</el-button
       >
+      <div class="tips" v-html="$t('msg.login.desc')"></div>
     </el-form>
   </div>
 </template>
@@ -65,39 +67,48 @@
 <script setup>
 // 导入组件之后无需注册可直接使用
 // import { Avatar } from '@element-plus/icons'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-
+import { useI18n } from 'vue-i18n'
+import LangSelect from '@/components/LangSelect'
+import { validatePassword } from './rules'
+import { watchSwitchLang } from '@/utils/i18n'
 const loginForm = ref({
   username: 'admin',
   // username: 'ngyixuan',
   password: '123456'
 })
-const validatePassword = (rule, value, callback) => {
-  if (value.length < 6) {
-    callback(new Error('密码需要大于6位数'))
-  } else {
-    callback()
-  }
-}
+// const validatePassword = (rule, value, callback) => {
+//   if (value.length < 6) {
+//     callback(new Error('密码需要大于6位数'))
+//   } else {
+//     callback()
+//   }
+// }
 const passwordType = ref('password')
 const handlePasswordType = () => {
   if (passwordType.value === 'password') passwordType.value = 'text'
   else passwordType.value = 'password'
 }
+
+// 验证规则
+const i18n = useI18n()
 const loginRules = ref({
   username: [
     {
       required: true,
       trigger: 'change',
-      message: '必填'
+      // message: i18n.t('msg.login.usernameRule')
+      message: computed(() => {
+        return i18n.t('msg.login.usernameRule')
+      })
     }
   ],
   password: [
     {
       required: true,
       trigger: 'change',
-      validator: validatePassword
+      validator: validatePassword()
     }
   ]
 })
@@ -122,6 +133,10 @@ const handleLogin = () => {
       })
   })
 }
+
+watchSwitchLang(() => {
+  loginFormRef.value.validate()
+})
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,8 @@
 <template>
   <div class="">
+    <!-- <h1 class="logo-title" v-if="$store.getters.sidebarOpened">
+      {{ $t('msg.test') }}
+    </h1> -->
     <div class="logo-container">
       <el-avatar
         :size="logoHeight"
