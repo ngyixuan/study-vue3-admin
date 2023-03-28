@@ -3,6 +3,9 @@
     <hamburger class="hamburger-container" />
     <breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
+      <header-search class="right-menu-item hover-effect"></header-search>
+      <screenfull class="right-menu-item hover-effect" />
+      <theme-picker class="right-menu-item hover-effect"></theme-picker>
       <lang-select class="right-menu-item hover-effect" />
       <!-- 头像 -->
       <el-dropdown class="avatar-container" trigger="click">
@@ -35,9 +38,12 @@
 <script setup>
 import {} from 'vue'
 import { useStore } from 'vuex'
+import HeaderSearch from '@/components/HeaderSearch'
+import Screenfull from '@/components/Screenfull'
 import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
 import LangSelect from '@/components/LangSelect'
+import ThemePicker from '@/components/ThemePicker/index'
 const store = useStore()
 const logout = () => {
   store.dispatch('user/logout')
