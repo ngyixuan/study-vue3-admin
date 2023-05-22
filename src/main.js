@@ -12,7 +12,8 @@ import './permission'
 import './style/index.scss'
 // 导入 svgIcon
 import installIcons from '@/icons'
-
+import installDirective from '@/directives'
+import installFilter from '@/filters'
 const app = createApp(App)
 Object.keys(icons).forEach((key) => {
   app.component(key, icons[key])
@@ -20,4 +21,6 @@ Object.keys(icons).forEach((key) => {
 app.use(i18n)
 installElementPlus(app)
 installIcons(app)
+installDirective(app)
+installFilter(app)
 app.use(store).use(router).mount('#app')

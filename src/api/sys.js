@@ -4,7 +4,6 @@ import request from '@/utils/request'
 export const userLogin = (data) => {
   return request({
     url: '/api/login',
-
     method: 'POST',
     data
   })
